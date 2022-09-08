@@ -14,10 +14,11 @@ firebase.initializeApp({
 const db = firebase.firestore();
 
 const pixel = require('./fb_events/webinar-harta');
+const order = require('./fb_events/order');
 
 
 const app = express();
-app.use(cors({ origin: true }));
+app.use(cors());
 
 Object.defineProperty(Date.prototype, 'YYYYMMDDHHMMSS', {
   value: function() {
@@ -92,3 +93,4 @@ app.post("/netopia", async (req, res) => {
 
 exports.paylike = functions.https.onRequest(app);
 exports.pixel = pixel.pixel;
+exports.order = order.order;
