@@ -29,7 +29,7 @@ api.post("/order", async (req, res) => {
     // ).then((resp) => resp.json().then((result) => console.log(result))),
 
     fetch(
-      "https://graph.facebook.com/v12.0/382464103878420/events?access_token=EAARp6yc6RlgBAHgW9Y0FFNOYO5p0xgZBSvNKmBzvOi9R5IADDpGGmxjbJViZAwPLHtIby6dFMo5xs0b7V5LHnNuOEzKyMHUcTYYmbziR8yLqDV2KQ43xjZCM7f4mETm80MOW3D7b09RjdrzwMJihHVPZA8821lTRrTSNbZBMzOGFuhIMc86sdYKkwT1BhJwoZD",
+      "https://graph.facebook.com/v12.0/382464103878420/events?access_token=EAARp6yc6RlgBAAIvSr6QDO6peyVacmmZAyZAgdjo1nSW8ZCvFxW04zSnJ4pZB04BIybrsUZA4hqlDZAheIr37HNJlCB0mD90XdGhhP9UF4vaq9YzSJA1sbN0zjtfczkvjZCsA6M8qiK9OqtBnd4ZCLc6E3p97ZByuLPPZChe65kGVPGMIieBdLFPaychZAUDFpZAl9AZD",
       {
         method: "POST",
         headers: {
@@ -37,7 +37,7 @@ api.post("/order", async (req, res) => {
         },
         body: JSON.stringify(event),
       }
-    ).then((resp) => resp.json().then((result) => console.log(result))),
+    ).then((resp) => resp.text().then((result) => console.log(result))),
   ]).then(res.send("succes"));
 });
 
