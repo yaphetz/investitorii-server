@@ -21,7 +21,7 @@ api.post("/webinar-harta", async (req, res) => {
   Promise.all([
     fetch('https://ennp1tgfp7yaxlt.m.pipedream.net', { method: "POST", body: JSON.stringify(event) }).then(resp => resp.text()),
     fetch('https://enkbo1a3hlbh21q.m.pipedream.net', { method: "POST", body: JSON.stringify(event) }).then(resp => resp.text()),
-  ]).then(res.send("successsss"))
+  ]).then(res.send(`${eventTitle} triggered`))
 
 });
 
@@ -43,7 +43,7 @@ api.post("/webinar-harta-evergreen", async (req, res) => {
   Promise.all([
     fetch('https://ennp1tgfp7yaxlt.m.pipedream.net', { method: "POST", body: JSON.stringify(event) }).then(resp => resp.text()),
     fetch('https://enkbo1a3hlbh21q.m.pipedream.net', { method: "POST", body: JSON.stringify(event) }).then(resp => resp.text()),
-  ]).then(res.send("succes"))
+  ]).then(res.send(`${eventTitle} triggered`))
 
 });
 
