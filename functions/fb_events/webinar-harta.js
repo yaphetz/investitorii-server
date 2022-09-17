@@ -12,16 +12,21 @@ api.post("/webinar-harta", async (req, res) => {
     event: eventTitle,
     event_data: { eventID: object.form_response.answers[4].email },
     user_data: {
-      em: object.form_response.answers[4].email,
-      ph: object.form_response.answers[5].phone_number,
+      em: object.form_response.answers[3].email,
+      ph: object.form_response.answers[4].phone_number,
       fn: object.form_response.answers[1].text,
     },
   };
 
-  Promise.all([
-    fetch('https://ennp1tgfp7yaxlt.m.pipedream.net', { method: "POST", body: JSON.stringify(event) }).then(resp => resp.text()),
-    fetch('https://enkbo1a3hlbh21q.m.pipedream.net', { method: "POST", body: JSON.stringify(event) }).then(resp => resp.text()),
-  ]).then(res.send(`${eventTitle} triggered`))
+  try {
+    Promise.all([
+      fetch('https://ennp1tgfp7yaxlt.m.pipedream.net', { method: "POST", body: JSON.stringify(event) }).then(resp => resp.text()),
+      fetch('https://enkbo1a3hlbh21q.m.pipedream.net', { method: "POST", body: JSON.stringify(event) }).then(resp => resp.text()),
+    ]).then(res.send(`${eventTitle} triggered`))
+  } catch (error) {
+    res.send(`${eventTitle} ERROR `, error)
+  }
+
 
 });
 
@@ -40,10 +45,15 @@ api.post("/webinar-harta-evergreen", async (req, res) => {
     },
   };
 
-  Promise.all([
-    fetch('https://ennp1tgfp7yaxlt.m.pipedream.net', { method: "POST", body: JSON.stringify(event) }).then(resp => resp.text()),
-    fetch('https://enkbo1a3hlbh21q.m.pipedream.net', { method: "POST", body: JSON.stringify(event) }).then(resp => resp.text()),
-  ]).then(res.send(`${eventTitle} triggered`))
+  try {
+    Promise.all([
+      fetch('https://ennp1tgfp7yaxlt.m.pipedream.net', { method: "POST", body: JSON.stringify(event) }).then(resp => resp.text()),
+      fetch('https://enkbo1a3hlbh21q.m.pipedream.net', { method: "POST", body: JSON.stringify(event) }).then(resp => resp.text()),
+    ]).then(res.send(`${eventTitle} triggered`));
+  } catch (error) {
+    res.send(`${eventTitle} ERROR `, error);
+  }
+
 
 });
 
