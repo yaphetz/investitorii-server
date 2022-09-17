@@ -94,6 +94,4 @@ app.post("/netopia", async (req, res) => {
 
 exports.paylike = functions.https.onRequest(app);
 exports.pixel = pixel.pixel;
-exports.evergreen = evergreen.evergreen;
 exports.order = order.order;
-// exports.createContact = createContact.createContact;
