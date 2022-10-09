@@ -11,7 +11,7 @@ api.post("", async (req, res) => {
     const emailExists = firebase.auth().getUserByEmail(email).then(() => true).catch(() => false)
     emailExists.then( x=> {
         console.log(x)
-        res.send(req.body);
+        res.send(x);
     })
 });
 
