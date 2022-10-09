@@ -15,6 +15,7 @@ const db = firebase.firestore();
 
 const pixel = require('./fb_events/webinar-harta');
 const order = require('./fb_events/order');
+const userExists = require('./tools/check-if-user-exists');
 // const createContact = require('./freshworks/contacts/create');
 
 
@@ -95,3 +96,4 @@ app.post("/netopia", async (req, res) => {
 exports.paylike = functions.https.onRequest(app);
 exports.pixel = pixel.pixel;
 exports.order = order.order;
+exports.userExists = userExists.userExists;
