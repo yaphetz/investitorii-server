@@ -13,6 +13,7 @@ firebase.initializeApp({
 });
 const db = firebase.firestore();
 
+const teachable = require('./teachable/api/createUser');
 const pixel = require('./fb_events/webinar-harta');
 const order = require('./fb_events/order');
 const userExists = require('./tools/check-if-user-exists');
@@ -41,7 +42,7 @@ Object.defineProperty(Date.prototype, 'YYYYMMDDHHMMSS', {
 app.post("/verify", async (req, res)=> {
   let body = req.body;
   const mobilPay = new MobilPay("2CJ2-DCWJ-THVI-FZ1C-NZTM");
-  mobilPay.setPrivateKeyFromPath('./certificates/live.2CJ2-DCWJ-THVI-FZ1C-NZTMprivate.key');
+  mobilPay.setPrivateKeyFromPath('./certificates/sandbox.2CJ2-DCWJ-THVI-FZ1C-NZTMprivate.key');
 
   let response = mobilPay.validatePayment(body.env_key, body.data);
   response.then( result=> {
@@ -75,7 +76,7 @@ app.post("/netopia", async (req, res) => {
   const userData = req.body;
   const mobilPay = new MobilPay("2CJ2-DCWJ-THVI-FZ1C-NZTM");
 
-  mobilPay.setPublicKeyFromPath('./certificates/live.2CJ2-DCWJ-THVI-FZ1C-NZTM.public.cer')
+  mobilPay.setPublicKeyFromPath('./certificates/sandbox.2CJ2-DCWJ-THVI-FZ1C-NZTM.public.cer')
 
   mobilPay.setClientBillingData(userData.firstName, userData.lastName, userData.county, userData.city, userData.street, userData.email, userData.phone);
 
@@ -84,8 +85,9 @@ app.post("/netopia", async (req, res) => {
     amount: userData.order.amount,
     currency: userData.order.currency,
     details: `${userData.user.uid}, ${userData.transactionId}`,
-    confirmUrl: "https://us-central1-investitoriiromania.cloudfunctions.net/paylike/verify",
-    returnUrl: `http://checkout.investitoriiromania.ro/transaction/${userData.transactionId}?userid=${userData.user.uid}`,
+    //http://3d68-2a02-2f01-f41a-8800-2565-8624-61a1-270.ngrok.io//investitoriiromania/us-central1/paylike/verify
+    confirmUrl: "http://3d68-2a02-2f01-f41a-8800-2565-8624-61a1-270.ngrok.io/investitoriiromania/us-central1/paylike/verify",
+    returnUrl: `http://localhost:4200//transaction/${userData.transactionId}?userid=${userData.user.uid}`,
   });
   let request = mobilPay.buildRequest(false);
 
@@ -97,3 +99,4 @@ exports.paylike = functions.https.onRequest(app);
 exports.pixel = pixel.pixel;
 exports.order = order.order;
 exports.userExists = userExists.userExists;
+exports.teachable = teachable.teachable;
