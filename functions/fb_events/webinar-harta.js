@@ -1,16 +1,20 @@
 const functions = require("firebase-functions");
 const express = require("express");
 const fetch = require("node-fetch");
+const cors = require("cors");
 
 const api = express();
+api.use(cors());
 
 api.post("/webinar-harta", async (req, res) => {
   let object = req.body;
   let eventTitle = 'Inscriere Webinar Typefrom';
 
+  let eventID = Buffer.from(object.form_response.answers[3].email + object.form_response.answers[1].text).toString('base64');
+
   let event = {
     event: eventTitle,
-    event_data: { eventID: object.form_response.answers[4].email },
+    event_data: { eventID: eventID },
     user_data: {
       em: object.form_response.answers[3].email,
       ph: object.form_response.answers[4].phone_number,
