@@ -15,4 +15,4 @@ api.post("", async (req, res) => {
     })
 });
 
-exports.userExists = functions.https.onRequest(api);
+exports.userExists = functions.https.onRequest(api)
