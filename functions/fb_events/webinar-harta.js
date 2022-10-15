@@ -10,15 +10,18 @@ api.post("/webinar-harta", async (req, res) => {
   let object = req.body;
   let eventTitle = 'Inscriere Webinar Typefrom';
 
-  let eventID = Buffer.from(object.form_response.answers[3].email + object.form_response.answers[1].text).toString('base64');
+  let eventID = Buffer.from(object.email + object.firstName).toString('base64');
 
   let event = {
     event: eventTitle,
     event_data: { eventID: eventID },
+    fbp: object.fbp,
+    fbclid: object.fbc,
     user_data: {
-      em: object.form_response.answers[3].email,
-      ph: object.form_response.answers[4].phone_number,
-      fn: object.form_response.answers[1].text,
+      em: object.email,
+      ph: object.phone,
+      fn: object.firstName,
+
     },
   };
 
