@@ -33,7 +33,7 @@ Object.defineProperty(Date.prototype, 'YYYYMMDDHHMMSS', {
              pad2(this.getDate()) +
              pad2(this.getHours()) +
              pad2(this.getMinutes()) +
-             pad2(this.getSeconds());
+             pad2(this.getSeconds());live
   }
 });
 
@@ -41,7 +41,7 @@ Object.defineProperty(Date.prototype, 'YYYYMMDDHHMMSS', {
 app.post("/verify", async (req, res)=> {
   let body = req.body;
   const mobilPay = new MobilPay("2CJ2-DCWJ-THVI-FZ1C-NZTM");
-  mobilPay.setPrivateKeyFromPath('./certificates/sandbox.2CJ2-DCWJ-THVI-FZ1C-NZTMprivate.key');
+  mobilPay.setPrivateKeyFromPath('./certificates/live.2CJ2-DCWJ-THVI-FZ1C-NZTMprivate.key');
 
   let response = mobilPay.validatePayment(body.env_key, body.data);
   response.then( result=> {
@@ -75,7 +75,7 @@ app.post("/netopia", async (req, res) => {
   const userData = req.body;
   const mobilPay = new MobilPay("2CJ2-DCWJ-THVI-FZ1C-NZTM");
 
-  mobilPay.setPublicKeyFromPath('./certificates/sandbox.2CJ2-DCWJ-THVI-FZ1C-NZTM.public.cer')
+  mobilPay.setPublicKeyFromPath('./certificates/live.2CJ2-DCWJ-THVI-FZ1C-NZTM.public.cer')
 
   mobilPay.setClientBillingData(userData.firstName, userData.lastName, userData.county, userData.city, userData.street, userData.email, userData.phone);
 
