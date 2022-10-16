@@ -2,7 +2,6 @@ const functions = require("firebase-functions");
 const express = require("express");
 const cors = require("cors");
 const url = require("url");
-var paylike = require("paylike")("51669e53-16ab-4bb4-b5de-34c575c047cc");
 const MobilPay = require("mobilpay-card"); // ES5
 const firebase = require('firebase-admin');
 
@@ -86,8 +85,9 @@ app.post("/netopia", async (req, res) => {
     currency: userData.order.currency,
     details: `${userData.user.uid}, ${userData.transactionId}`,
     //http://3d68-2a02-2f01-f41a-8800-2565-8624-61a1-270.ngrok.io//investitoriiromania/us-central1/paylike/verify
-    confirmUrl: "http://3d68-2a02-2f01-f41a-8800-2565-8624-61a1-270.ngrok.io/investitoriiromania/us-central1/paylike/verify",
-    returnUrl: `http://localhost:4200//transaction/${userData.transactionId}?userid=${userData.user.uid}`,
+    //
+    confirmUrl: "https://us-central1-investitoriiromania.cloudfunctions.net/paylike/verify",
+    returnUrl: `https://checkout.investitoriiromania.ro/transaction/${userData.transactionId}?userid=${userData.user.uid}`,
   });
   let request = mobilPay.buildRequest(false);
 
