@@ -85,7 +85,7 @@ app.post("/netopia", async (req, res) => {
     currency: userData.order.currency,
     details: `${userData.user.uid}, ${userData.transactionId}`,
     //http://3d68-2a02-2f01-f41a-8800-2565-8624-61a1-270.ngrok.io//investitoriiromania/us-central1/paylike/verify
-    //
+    //https://us-central1-investitoriiromania.cloudfunctions.net/paylike/verify
     confirmUrl: "https://us-central1-investitoriiromania.cloudfunctions.net/paylike/verify",
     returnUrl: `https://checkout.investitoriiromania.ro/transaction/${userData.transactionId}?userid=${userData.user.uid}`,
   });
