@@ -55,7 +55,7 @@ app.post("/verify", async (req, res) => {
           let orderConfirmed = await isOrderConfirmed(userId, transactionId);
           if (!orderConfirmed) {
             console.log("Should be requested only one time");
-            handleProducts(userId, transactionId);
+            await handleProducts(userId, transactionId);
             let teachableUser = await createUser(userEmail, userPassword);
             let userProducts = await getUserPaidProducts(userId);
             let enrollRes = await enrollUser(teachableUser.id, userProducts);
@@ -95,7 +95,7 @@ async function isOrderConfirmed(userId, transactionId) {
   });
 }
 
-function handleProducts(userId, transactionId) {
+async function handleProducts(userId, transactionId) {
   db.collection("users")
     .doc(userId)
     .collection("transactions")
@@ -111,7 +111,8 @@ function handleProducts(userId, transactionId) {
           updateProductAdvance(userId, product);
         } else {
           product.paid = product.price;
-          db.collection("users")
+          return db
+            .collection("users")
             .doc(userId)
             .collection("products")
             .doc(product.id)
@@ -146,7 +147,11 @@ async function getUserPaidProducts(userId) {
   let userProducts = await db.collection("users").doc(userId).collection("products").get();
   userProducts = userProducts.docs;
   userProducts = userProducts.map((userProduct) => userProduct.data());
-  return userProducts.filter(product => product.paid >= product.threshold || !product.threshold);
+  console.log(
+    "paid products: ",
+    userProducts.filter((product) => product.paid >= product.threshold || !product.threshold)
+  );
+  return userProducts.filter((product) => product.paid >= product.threshold || !product.threshold);
 }
 
 async function createUser(email, password) {
@@ -174,6 +179,7 @@ async function enrollUser(teachableUserId, courses) {
   var myHeaders = new fetch.Headers();
   myHeaders.append("apiKey", "UjJtbn9z2kjVvoIQpPk7kTvKzE9lPH2c");
   myHeaders.append("Content-Type", "application/json");
+  console.log("enrolling user id " + teachableUserId, " with ", courses);
 
   enrollmentPromises = courses.map((course) => {
     var requestOptions = {
