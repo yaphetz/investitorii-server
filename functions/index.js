@@ -111,7 +111,7 @@ async function handleProducts(userId, transactionId) {
           updateProductAdvance(userId, product);
         } else {
           product.paid = product.price;
-          return db
+          return await db
             .collection("users")
             .doc(userId)
             .collection("products")
