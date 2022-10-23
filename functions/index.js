@@ -96,6 +96,7 @@ async function isOrderConfirmed(userId, transactionId) {
 }
 
 async function handleProducts(userId, transactionId) {
+  return new Promise((resolve) => {
   db.collection("users")
     .doc(userId)
     .collection("transactions")
@@ -103,23 +104,30 @@ async function handleProducts(userId, transactionId) {
     .get()
     .then((transaction) => {
       let products = transaction.data().product;
-      products.forEach(async (product) => {
+      products.forEach(async (product, index) => {
         //daca produs exista update avans, altfel creeaza cu paid = price
         productExist = await checkIfProductExist(userId, product);
         console.log(productExist);
         if (productExist) {
-          updateProductAdvance(userId, product);
+          updateProductAdvance(userId, product).then( ()=>{
+            if(index == products.length-1)
+            resolve(true);
+          })
         } else {
           product.paid = product.price;
-          return await db
+            db
             .collection("users")
             .doc(userId)
             .collection("products")
             .doc(product.id)
-            .set({ ...product });
+            .set({ ...product }).then(()=>{
+              if(index == products.length-1)
+              resolve(true);
+            })
         }
       });
     });
+  });
 }
 
 function checkIfProductExist(userId, productToCheck) {
