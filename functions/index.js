@@ -224,3 +224,4 @@ exports.paylike = functions.https.onRequest(app);
 exports.pixel = pixel.pixel;
 exports.order = order.order;
 exports.teachable = teachable.teachable;
+exports.userExists = userExists.userExists;
