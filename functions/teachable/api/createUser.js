@@ -7,7 +7,7 @@ const fetch = require("node-fetch");
 const api = express();
 api.use(cors());
 
-function createUser(email) {
+function createUser(email, password) {
   const url = "https://developers.teachable.com/v1/users";
   var myHeaders = new fetch.Headers();
   myHeaders.append("apiKey", "UjJtbn9z2kjVvoIQpPk7kTvKzE9lPH2c");
@@ -15,6 +15,7 @@ function createUser(email) {
 
   var raw = JSON.stringify({
     email: email,
+    password: password
   });
 
   var requestOptions = {
@@ -24,12 +25,13 @@ function createUser(email) {
     redirect: "follow",
   };
 
-  return fetch("https://developers.teachable.com/v1/users", requestOptions);
+  return fetch(url, requestOptions);
 }
 
 api.post("/createUser", async (req, res) => {
   let email = req.body.email;
-  createUser(email).then((response) => response.text())
+  let password =  req.body.password;
+  createUser(email, password).then((response) => response.text())
     .then((result) => {
       console.log(result);
       res.send(result);
@@ -71,3 +73,4 @@ api.post("/enroll", async (req, res) => {
 });
 
 exports.teachable = functions.https.onRequest(api);
+exports.createUser = createUser();
