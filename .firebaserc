@@ -1,7 +1,5 @@
 {
   "projects": {
-    "production": "investitoriiromania"
-  },
-  "targets": {},
-  "etags": {}
+    "default": "investitoriiromania"
+  }
 }
