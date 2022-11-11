@@ -17,6 +17,8 @@ const teachable = require("./teachable/api/createUser");
 const pixel = require("./fb_events/webinar-harta");
 const order = require("./fb_events/order");
 const userExists = require("./tools/check-if-user-exists");
+const formularTrimis = require("./fb_events/formular-trimis");
+const getClientIP = require("./tools/get_client_ip");
 
 const app = express();
 app.use(cors());
@@ -239,3 +241,5 @@ exports.pixel = pixel.pixel;
 exports.order = order.order;
 exports.teachable = teachable.teachable;
 exports.userExists = userExists.userExists;
+exports.formularTrimis = formularTrimis.formularTrimis;
+exports.getClientIP = getClientIP.getClientIP;
