@@ -14,7 +14,7 @@ function mapTypeform(response) {
     if (answerElement.choice) answer = answerElement.choice.label;
     if (answerElement.email) answer = answerElement.email;
     if (answerElement.phone_number) answer = answerElement.phone_number;
-    return { question: question.title, answer: answer };
+    return { question: question.title, questionId: question.id, answer: answer };
   });
 }
 
@@ -22,15 +22,15 @@ api.post("/formularTrimis", async (req, res) => {
   let eventTitle = "Formular Trimis";
   const responses = mapTypeform(req.body.form_response);
   const userProfile = {
-    name: responses[0],
-    email: responses[2],
-    phone: responses[3],
+    name: responses.find((answer) => answer.questionId === "PessVezjp7UX" || answer.questionId === "s5wVqHEntThb"),
+    email: responses.find((answer) => answer.questionId === "GV2MUVQDMdDj" || answer.questionId === "v8Qld2T0j5Mu"),
+    phone: responses.find((answer) => answer.questionId === "e9J3ttqQ6CQq" || answer.questionId === "cdoou2Dik4Y1"),
     fbp: req.body.form_response.hidden.fbp,
     fbc: req.body.form_response.hidden.fbc,
     ip: req.body.form_response.hidden.ip,
     agent: req.body.form_response.hidden.agent,
   };
-
+  console.log(userProfile);
   let eventID = Buffer.from(userProfile.email.answer + userProfile.name.answer).toString("base64");
 
   let event = {
