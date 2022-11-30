@@ -6,6 +6,13 @@ const cors = require("cors");
 const api = express();
 api.use(cors());
 
+const UA_ID = "UA-197472981-1";
+const UA_VERSION = 1;
+const EVENT_TYPE = "event";
+const EVENT_TITLE = "Formular Trimis";
+const EVENT_CATEGORY = "Typeform";
+const GTAG_URL = "www.google-analytics.com/collect";
+
 function mapTypeform(response) {
   return response.answers.map((answerElement) => {
     let question = response.definition.fields.find((question) => question.id === answerElement.field.id);
@@ -58,6 +65,9 @@ api.post("/formularTrimis", async (req, res) => {
     Promise.all([
       fetch("https://ennp1tgfp7yaxlt.m.pipedream.net", { method: "POST", body: JSON.stringify(event) }).then((resp) => resp.text()),
       fetch("https://enkbo1a3hlbh21q.m.pipedream.net", { method: "POST", body: JSON.stringify(event) }).then((resp) => resp.text()),
+      fetch(GTAG_URL + `?v=${UA_VERSION}&t=${EVENT_TYPE}&tid=${UA_ID}&cid=${eventID}&ec=${EVENT_CATEGORY}&ea=${EVENT_TITLE}&el=${EVENT_TITLE}`, {
+        method: "POST",
+      }).then((resp) => resp.text()),
     ]).then(res.send(`${eventTitle} triggered`));
   } catch (error) {
     res.send(`${eventTitle} ERROR `, error);
