@@ -11,7 +11,7 @@ const UA_VERSION = 1;
 const EVENT_TYPE = "event";
 const EVENT_TITLE = "Formular Trimis";
 const EVENT_CATEGORY = "Typeform";
-const GTAG_URL = "www.google-analytics.com/collect";
+const GTAG_URL = "https://www.google-analytics.com/collect";
 
 function mapTypeform(response) {
   return response.answers.map((answerElement) => {
@@ -40,6 +40,9 @@ api.post("/formularTrimis", async (req, res) => {
   console.log(userProfile);
   let eventID = Buffer.from(userProfile.email.answer + userProfile.name.answer).toString("base64");
 
+  var myHeaders = new fetch.Headers();
+  myHeaders.append("User-Agent", userProfile.agent);
+
   let event = {
     event: eventTitle,
     event_data: { eventID: eventID },
@@ -67,11 +70,17 @@ api.post("/formularTrimis", async (req, res) => {
       fetch("https://enkbo1a3hlbh21q.m.pipedream.net", { method: "POST", body: JSON.stringify(event) }).then((resp) => resp.text()),
       fetch(GTAG_URL + `?v=${UA_VERSION}&t=${EVENT_TYPE}&tid=${UA_ID}&cid=${eventID}&ec=${EVENT_CATEGORY}&ea=${EVENT_TITLE}&el=${EVENT_TITLE}`, {
         method: "POST",
+        body: "",
+        headers: myHeaders,
+        redirect: "follow",
       }).then((resp) => resp.text()),
-    ]).then(res.send(`${eventTitle} triggered`));
+    ]).then((result) => {
+      res.send(`${eventTitle} triggered on facebook and gtag`);
+    });
   } catch (error) {
     res.send(`${eventTitle} ERROR `, error);
   }
+
 });
 
 exports.formularTrimis = functions.https.onRequest(api);
